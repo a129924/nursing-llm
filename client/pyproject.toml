@@ -1,0 +1,49 @@
+[project]
+name = "nursing-llm-client"
+version = "0.1.0"
+description = "A client for nursing LLM services with support for various models and providers."
+authors = [
+    {name = "andrew", email = "a129924@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+
+[tool.pdm]
+distribution = true
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+python_files = ["test_*.py"]
+addopts = ["-v"]
+asyncio_mode = "auto"
+
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+    "W191",  # indentation contains tabs
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.4",
+    "pytest-mock>=3.14.0",
+]
