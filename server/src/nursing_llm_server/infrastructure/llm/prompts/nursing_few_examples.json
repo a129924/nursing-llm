@@ -1,0 +1,110 @@
+[
+    {
+        "input": "病患今晨血壓 150/90 mmHg，頭痛。2025-09-25 07:30 覺得噁心。",
+        "output": {
+            "record_id": "ex_001",
+            "patient_id": null,
+            "timestamp": "2025-09-25T07:30:00+08:00",
+            "source_text": "病患今晨血壓 150/90 mmHg，頭痛。2025-09-25 07:30 覺得噁心。",
+            "patient_status": {
+                "vital_signs": {
+                    "blood_pressure": {
+                        "systolic": 150,
+                        "diastolic": 90,
+                        "unit": "mmHg"
+                    },
+                    "heart_rate": {
+                        "value": null,
+                        "unit": null
+                    },
+                    "oxygen_saturation": {
+                        "value": null,
+                        "unit": null
+                    },
+                    "temperature": null
+                },
+                "symptoms": [
+                    "頭痛",
+                    "噁心"
+                ],
+                "observation": []
+            },
+            "interventions": [],
+            "denied_symptoms": [],
+            "schema_version": "1.0",
+            "confidence": 0.9,
+            "notes": null,
+            "raw_text": "病患今晨血壓 150/90 mmHg，頭痛。2025-09-25 07:30 覺得噁心。"
+        }
+    },
+    {
+        "input": "今晚22:00 給予 0.5mg 鎮靜劑，病人睡著。血氧 97%。否認胸痛。",
+        "output": {
+            "record_id": "ex_002",
+            "patient_id": null,
+            "timestamp": "2025-09-24T22:00:00+08:00",
+            "source_text": "今晚22:00 給予 0.5mg 鎮靜劑，病人睡著。血氧 97%。否認胸痛。",
+            "patient_status": {
+                "vital_signs": {
+                    "blood_pressure": {
+                        "systolic": null,
+                        "diastolic": null,
+                        "unit": "mmHg"
+                    },
+                    "heart_rate": {
+                        "value": null,
+                        "unit": "bpm"
+                    },
+                    "oxygen_saturation": {
+                        "value": 97,
+                        "unit": "%"
+                    },
+                    "temperature": null
+                },
+                "symptoms": [],
+                "observation": [
+                    "病人睡著"
+                ]
+            },
+            "interventions": [
+                {
+                    "action_type": "給藥",
+                    "medication": {
+                        "name": "鎮靜劑",
+                        "normalized_name": null,
+                        "dosage": "0.5 mg",
+                        "route": null
+                    },
+                    "timestamp": "2025-09-24T22:00:00+08:00"
+                }
+            ],
+            "denied_symptoms": [
+                "胸痛"
+            ],
+            "schema_version": "1.0",
+            "confidence": 0.88,
+            "notes": null,
+            "raw_text": "今晚22:00 給予 0.5mg 鎮靜劑，病人睡著。血氧 97%。否認胸痛。"
+        }
+    },
+    {
+        "input": "病人狀況不佳，請加強注意並回報異常情形。",
+        "output": {
+            "record_id": "ex_amb_001",
+            "patient_id": null,
+            "timestamp": null,
+            "source_text": "病人狀況不佳，請加強注意並回報異常情形。",
+            "patient_status": {
+                "vital_signs": {},
+                "symptoms": [],
+                "observation": []
+            },
+            "interventions": [],
+            "denied_symptoms": [],
+            "schema_version": "1.0",
+            "confidence": 0.35,
+            "notes": "No measurable vitals, medications, or specific symptoms/times found; cannot extract structured fields.",
+            "raw_text": "病人狀況不佳，請加強注意並回報異常情形。"
+        }
+    }
+]
