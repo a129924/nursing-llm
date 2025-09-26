@@ -1,6 +1,6 @@
 [project]
 name = "nursing-llm-server"
-version = "0.1.0"
+version = "0.2.0"
 description = "A server for nursing LLM services with FastAPI, supporting various models and providers."
 authors = [
     {name = "andrew", email = "a129924@gmail.com"},
