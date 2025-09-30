@@ -5,8 +5,12 @@ from pytest import fixture
 from nursing_llm_server.applications.validators.pydantic.pydantic_validator import (
     PydanticValidator,
 )
+from nursing_llm_server.domain.entities.nursing import NursingNote
 from nursing_llm_server.infrastructure.entities.nursing import (
     NursingNoteSchema,
+)
+from nursing_llm_server.infrastructure.llm.adapters.mappers.pydantic.nursing_mapper import (
+    NursingMapper,
 )
 from nursing_llm_server.infrastructure.llm.schemas import OllamaResponseSchema
 
@@ -137,3 +141,16 @@ def valid_nursing_record_schema(
         NursingNoteSchema,
         pydantic_validator.validate(NursingNoteSchema, nursing_record_json),
     )
+
+
+@fixture(scope="module")
+def nursing_mapper() -> NursingMapper:
+    return NursingMapper()
+
+
+@fixture(scope="module")
+def mapped_nursing_note(
+    nursing_mapper: NursingMapper,
+    valid_nursing_record_schema: NursingNoteSchema,
+) -> NursingNote:
+    return nursing_mapper.schema_to_entity(valid_nursing_record_schema)
