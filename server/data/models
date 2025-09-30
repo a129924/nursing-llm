@@ -1,0 +1,5 @@
+The directory `/server/data/models` is intended to store the models that are pulled from Ollama. Since this is a directory and not a file, it does not require any specific contents. Therefore, the contents of this directory will be empty, as it will be populated with models when they are pulled.
+
+Here is the response for the contents of the directory:
+
+# This directory is intentionally left blank.
