@@ -18,7 +18,10 @@
                         "value": null,
                         "unit": null
                     },
-                    "temperature": null
+                    "temperature": {
+                        "value": null,
+                        "unit": "°C"
+                    }
                 },
                 "symptoms": [
                     "頭痛",
@@ -53,7 +56,10 @@
                         "value": 97,
                         "unit": "%"
                     },
-                    "temperature": null
+                    "temperature": {
+                        "value": null,
+                        "unit": "°C"
+                    }
                 },
                 "symptoms": [],
                 "observation": [
@@ -101,7 +107,10 @@
                         "value": null,
                         "unit": "%"
                     },
-                    "temperature": null
+                    "temperature": {
+                        "value": null,
+                        "unit": "°C"
+                    }
                 },
                 "symptoms": [],
                 "observation": []
