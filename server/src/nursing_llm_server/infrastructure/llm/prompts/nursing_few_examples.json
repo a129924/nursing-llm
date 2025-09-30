@@ -2,10 +2,7 @@
     {
         "input": "病患今晨血壓 150/90 mmHg，頭痛。2025-09-25 07:30 覺得噁心。",
         "output": {
-            "record_id": "ex_001",
-            "patient_id": null,
             "timestamp": "2025-09-25T07:30:00+08:00",
-            "source_text": "病患今晨血壓 150/90 mmHg，頭痛。2025-09-25 07:30 覺得噁心。",
             "patient_status": {
                 "vital_signs": {
                     "blood_pressure": {
@@ -40,10 +37,7 @@
     {
         "input": "今晚22:00 給予 0.5mg 鎮靜劑，病人睡著。血氧 97%。否認胸痛。",
         "output": {
-            "record_id": "ex_002",
-            "patient_id": null,
             "timestamp": "2025-09-24T22:00:00+08:00",
-            "source_text": "今晚22:00 給予 0.5mg 鎮靜劑，病人睡著。血氧 97%。否認胸痛。",
             "patient_status": {
                 "vital_signs": {
                     "blood_pressure": {
@@ -90,12 +84,25 @@
     {
         "input": "病人狀況不佳，請加強注意並回報異常情形。",
         "output": {
-            "record_id": "ex_amb_001",
-            "patient_id": null,
             "timestamp": null,
             "source_text": "病人狀況不佳，請加強注意並回報異常情形。",
             "patient_status": {
-                "vital_signs": {},
+                "vital_signs": {
+                    "blood_pressure": {
+                        "systolic": null,
+                        "diastolic": null,
+                        "unit": "mmHg"
+                    },
+                    "heart_rate": {
+                        "value": null,
+                        "unit": "bpm"
+                    },
+                    "oxygen_saturation": {
+                        "value": null,
+                        "unit": "%"
+                    },
+                    "temperature": null
+                },
                 "symptoms": [],
                 "observation": []
             },

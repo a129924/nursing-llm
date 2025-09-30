@@ -18,15 +18,13 @@
 
 #### JSON Schema（請嚴格遵守）
 {
-  "record_id": "string",              // 建議格式 e.g., "rec_XXXXXXXX"
-  "patient_id": "string|null",
   "timestamp": "string|null",         // ISO8601 with timezone or null
   "patient_status": {
     "vital_signs": {
-      "blood_pressure": { "systolic": number|null, "diastolic": number|null, "unit": "mmHg"|null }|null,
-      "heart_rate": { "value": number|null, "unit": "bpm"|null }|null,
-      "oxygen_saturation": { "value": number|null, "unit": "%"|null }|null,
-      "temperature": { "value": number|null, "unit": "°C"|null }|null
+      "blood_pressure": { "systolic": number|null, "diastolic": number|null, "unit": "mmHg"|null },
+      "heart_rate": { "value": number|null, "unit": "bpm"|null },
+      "oxygen_saturation": { "value": number|null, "unit": "%"|null },
+      "temperature": { "value": number|null, "unit": "°C"|null }
     },
     "symptoms": [ "string" ],
     "observation": [ "string" ]
@@ -34,7 +32,7 @@
   "interventions": [
     {
       "action_type": "string",
-      "medication": { "name": "string", "normalized_name": "string|null", "dosage": "string|null", "route": "string|null" }|null,
+      "medication": { "name": "string", "normalized_name": "string|null", "dosage": "string|null", "route": "string|null" },
       "timestamp": "string|null"
     }
   ],
@@ -48,12 +46,13 @@
 #### 處理模糊或無關輸入（示例）
 - 若輸入為 "病人狀況不佳，請加強注意並回報異常情形。"
   - timestamp: null
-  - patient_status.*: 空或 null
+  - patient_status.*: 留欄位，留空值
   - notes: "No measurable vitals, medications, or specific symptoms/times found; cannot extract structured fields."
   - confidence: 0.2
 
 #### 限制與回傳格式
 - 若無法遵守上述要求，仍須回傳 JSON，notes 說明原因。  
 - 請勿加入非 schema 欄位；如需擴充請與後端協調版本控制（schema_version）。
+- 請保留完整的欄位，即使沒有值也請保留欄位。
 
 -----
