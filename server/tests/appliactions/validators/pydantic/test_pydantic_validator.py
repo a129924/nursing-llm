@@ -1,5 +1,11 @@
 from datetime import datetime, timedelta, timezone
 
+from pytest import raises
+
+from nursing_llm_server.applications.validators.errors import ValidationError
+from nursing_llm_server.applications.validators.pydantic.pydantic_validator import (
+    PydanticValidator,
+)
 from nursing_llm_server.infrastructure.entities.nursing import (
     BloodPressureSchema,
     HeartRateSchema,
@@ -89,3 +95,10 @@ def test_valid_nursing_record_schema(
         # == "病人主訴頭痛及發燒，血壓120/80 mmHg，心率75 bpm，血氧98%。給予退燒藥物並建議多休息。無噁心或嘔吐症狀。"
         == "病患今晨血壓 150/90 mmHg，頭痛。2025-09-25 07:30 覺得噁心。"
     )
+
+
+def test_error_json_format(
+    error_json_format: str, pydantic_validator: PydanticValidator
+):
+    with raises(ValidationError):
+        pydantic_validator.validate(OllamaResponseSchema, error_json_format)

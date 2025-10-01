@@ -109,6 +109,23 @@ def nursing_record_json() -> str:
 
 
 @fixture(scope="module")
+def error_json_format() -> str:
+    return """{{
+    "model": "ollama/llama2",
+    "created_at": "2023-08-30T12:00:00Z",
+    "response": "這是一個測試回應。",
+    "done": true,
+    "context": ["上下文信息1", "上下文信息2"],
+    "total_duration": 1.23,
+    "load_duration": 0.45,
+    "prompt_eval_count": 3,
+    "prompt_eval_duration": 0.67,
+    "eval_count": 2,
+    "eval_duration": 0.89
+}"""
+
+
+@fixture(scope="module")
 def pydantic_validator() -> PydanticValidator:
     return PydanticValidator()
 
