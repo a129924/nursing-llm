@@ -4,5 +4,8 @@ from typing import TypeVar
 Schema = TypeVar("Schema")
 Entity = TypeVar("Entity")
 
+ResponseSchema = TypeVar("ResponseSchema")
+PayloadSchema = TypeVar("PayloadSchema")
+
 # Define T as a covariant type variable
 T = TypeVar("T", covariant=True)

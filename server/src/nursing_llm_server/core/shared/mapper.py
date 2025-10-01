@@ -1,8 +1,12 @@
 from abc import ABC, abstractmethod
-from typing import Generic
+from typing import Generic, Protocol
 
-from nursing_llm_server.core.types.generic import Entity
+from nursing_llm_server.core.types.generic import Entity, Schema
 from nursing_llm_server.core.types.specific import PydanticModelProtocolType
+
+
+class MapperInterface(Protocol[Schema, Entity]):  # type: ignore
+    def schema_to_entity(self, schema: Schema) -> Entity: ...
 
 
 class PydanticModelMapperABC(ABC, Generic[PydanticModelProtocolType, Entity]):
