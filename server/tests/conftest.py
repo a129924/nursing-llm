@@ -13,7 +13,7 @@ from nursing_llm_server.infrastructure.llm.adapters.mappers.pydantic.nursing_map
     NursingMapper,
 )
 from nursing_llm_server.infrastructure.llm.processors.ollama_processor import (
-    OllamaProcessor,
+    OllamaGenerateProcessor,
 )
 from nursing_llm_server.infrastructure.llm.schemas import OllamaResponseSchema
 
@@ -201,8 +201,8 @@ def mapped_nursing_note(
 def ollama_processor(
     pydantic_validator: PydanticValidator,
     nursing_mapper: NursingMapper,
-) -> OllamaProcessor:
-    return OllamaProcessor(
+) -> OllamaGenerateProcessor:
+    return OllamaGenerateProcessor(
         validator=pydantic_validator,
         payload_mapper=nursing_mapper,
     )
