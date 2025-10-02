@@ -13,11 +13,11 @@ from nursing_llm_server.infrastructure.entities.nursing import (
     OxygenSaturationSchema,
     TemperatureSchema,
 )
-from nursing_llm_server.infrastructure.llm.schemas import OllamaResponseSchema
+from nursing_llm_server.infrastructure.llm.schemas import OllamaGenerateResponseSchema
 
 
 def test_valid_ollama_response_schema(
-    valid_easy_ollama_response_schema: OllamaResponseSchema,
+    valid_easy_ollama_response_schema: OllamaGenerateResponseSchema,
 ):
     assert valid_easy_ollama_response_schema.model == "ollama/llama2"
     assert valid_easy_ollama_response_schema.done is True
@@ -101,4 +101,4 @@ def test_error_json_format(
     error_json_format: str, pydantic_validator: PydanticValidator
 ):
     with raises(ValidationError):
-        pydantic_validator.validate(OllamaResponseSchema, error_json_format)
+        pydantic_validator.validate(OllamaGenerateResponseSchema, error_json_format)

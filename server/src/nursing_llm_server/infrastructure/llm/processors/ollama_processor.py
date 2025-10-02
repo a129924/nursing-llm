@@ -12,11 +12,11 @@ from nursing_llm_server.infrastructure.entities.nursing import NursingNoteSchema
 from nursing_llm_server.infrastructure.llm.adapters.mappers.pydantic.nursing_mapper import (
     NursingMapper,
 )
-from nursing_llm_server.infrastructure.llm.schemas import OllamaResponseSchema
+from nursing_llm_server.infrastructure.llm.schemas import OllamaGenerateResponseSchema
 
 
 class OllamaGenerateProcessor(
-    LLMProcessorABC[OllamaResponseSchema, NursingNoteSchema, NursingNote]
+    LLMProcessorABC[OllamaGenerateResponseSchema, NursingNoteSchema, NursingNote]
 ):
     def __init__(
         self,
@@ -27,12 +27,12 @@ class OllamaGenerateProcessor(
         self._payload_mapper = payload_mapper
 
     @override
-    def _validate_response(self, raw: str) -> OllamaResponseSchema:
+    def _validate_response(self, raw: str) -> OllamaGenerateResponseSchema:
         """Validate the outer response schema."""
         try:
             return cast(
-                OllamaResponseSchema,
-                self._validator.validate(OllamaResponseSchema, raw),
+                OllamaGenerateResponseSchema,
+                self._validator.validate(OllamaGenerateResponseSchema, raw),
             )
         except ValidationError as e:
             from nursing_llm_server.infrastructure.llm.processors.errors.ollama import (
@@ -45,7 +45,7 @@ class OllamaGenerateProcessor(
 
     @override
     def _validate_payload(
-        self, response_schema: OllamaResponseSchema
+        self, response_schema: OllamaGenerateResponseSchema
     ) -> NursingNoteSchema:
         """Validate the payload schema."""
         try:

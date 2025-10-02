@@ -15,7 +15,7 @@ from nursing_llm_server.infrastructure.llm.adapters.mappers.pydantic.nursing_map
 from nursing_llm_server.infrastructure.llm.processors.ollama_processor import (
     OllamaGenerateProcessor,
 )
-from nursing_llm_server.infrastructure.llm.schemas import OllamaResponseSchema
+from nursing_llm_server.infrastructure.llm.schemas import OllamaGenerateResponseSchema
 
 
 @fixture(scope="module")
@@ -157,10 +157,12 @@ def pydantic_validator() -> PydanticValidator:
 @fixture(scope="module")
 def valid_easy_ollama_response_schema(
     easy_ollama_response_json: str, pydantic_validator: PydanticValidator
-) -> OllamaResponseSchema:
+) -> OllamaGenerateResponseSchema:
     return cast(
-        OllamaResponseSchema,
-        pydantic_validator.validate(OllamaResponseSchema, easy_ollama_response_json),
+        OllamaGenerateResponseSchema,
+        pydantic_validator.validate(
+            OllamaGenerateResponseSchema, easy_ollama_response_json
+        ),
     )
 
 

@@ -2,14 +2,14 @@ from typing_extensions import override
 
 from nursing_llm_server.applications.dto.llm_response import LLMResponse
 from nursing_llm_server.core.shared.mapper import PydanticModelMapperABC
-from nursing_llm_server.infrastructure.llm.schemas import OllamaResponseSchema
+from nursing_llm_server.infrastructure.llm.schemas import OllamaGenerateResponseSchema
 
 
 class OllamaLLMResponseMapper(
-    PydanticModelMapperABC[OllamaResponseSchema, LLMResponse]
+    PydanticModelMapperABC[OllamaGenerateResponseSchema, LLMResponse]
 ):
     @override
-    def schema_to_entity(self, schema: OllamaResponseSchema) -> LLMResponse:
+    def schema_to_entity(self, schema: OllamaGenerateResponseSchema) -> LLMResponse:
         return LLMResponse(
             model=schema.model,
             created_at=schema.created_at,
