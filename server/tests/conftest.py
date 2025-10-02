@@ -12,6 +12,9 @@ from nursing_llm_server.infrastructure.entities.nursing import (
 from nursing_llm_server.infrastructure.llm.adapters.mappers.pydantic.nursing_mapper import (
     NursingMapper,
 )
+from nursing_llm_server.infrastructure.llm.processors.ollama_processor import (
+    OllamaProcessor,
+)
 from nursing_llm_server.infrastructure.llm.schemas import OllamaResponseSchema
 
 
@@ -109,6 +112,27 @@ def nursing_record_json() -> str:
 
 
 @fixture(scope="module")
+def full_ollama_response(nursing_record_json: str) -> str:
+    from json import dumps
+
+    return dumps(
+        {
+            "model": "ollama/llama2",
+            "created_at": "2023-08-30T12:00:00Z",
+            "response": f"{nursing_record_json}",
+            "done": True,
+            "context": ["上下文信息1", "上下文信息2"],
+            "total_duration": 1.23,
+            "load_duration": 0.45,
+            "prompt_eval_count": 3,
+            "prompt_eval_duration": 0.67,
+            "eval_count": 2,
+            "eval_duration": 0.89,
+        }
+    )
+
+
+@fixture(scope="module")
 def error_json_format() -> str:
     return """{{
     "model": "ollama/llama2",
@@ -171,3 +195,14 @@ def mapped_nursing_note(
     valid_nursing_record_schema: NursingNoteSchema,
 ) -> NursingNote:
     return nursing_mapper.schema_to_entity(valid_nursing_record_schema)
+
+
+@fixture(scope="module")
+def ollama_processor(
+    pydantic_validator: PydanticValidator,
+    nursing_mapper: NursingMapper,
+) -> OllamaProcessor:
+    return OllamaProcessor(
+        validator=pydantic_validator,
+        payload_mapper=nursing_mapper,
+    )
