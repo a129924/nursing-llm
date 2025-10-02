@@ -15,7 +15,7 @@ from nursing_llm_server.infrastructure.llm.adapters.mappers.pydantic.nursing_map
 from nursing_llm_server.infrastructure.llm.schemas import OllamaResponseSchema
 
 
-class OllamaProcessor(
+class OllamaGenerateProcessor(
     LLMProcessorABC[OllamaResponseSchema, NursingNoteSchema, NursingNote]
 ):
     def __init__(
