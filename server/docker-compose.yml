@@ -1,8 +1,9 @@
-version: '3.8'
-
 services:
   ollama:
-    image: ollama/ollama:latest
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    image: local/ollama:custom
     env_file:
       - .env
     environment:
@@ -12,11 +13,17 @@ services:
       - "${PORT}:${PORT}"
     volumes:
       - ./data/models:/app/models
-    command: ["bash", "-c", "sh /docker/pull_model.sh && ollama serve"] 
+      - ./docker/pull_model.sh:/docker/pull_model.sh
+      - ./docker/init_and_pull.sh:/docker/init_and_pull.sh
+    # 改為明確用 /bin/sh 呼叫腳本（腳本只需可讀）
+    entrypoint: ["/bin/sh", "-c", "/bin/sh /docker/init_and_pull.sh && ollama serve"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:${PORT}/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 networks:
   default:
     driver: bridge
-
-volumes:
-  models:
