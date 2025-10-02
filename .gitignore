@@ -170,3 +170,22 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+server/outputs/full_text.txt
+server/outputs/messages.json
+server/outputs/bak/full_text_english.txt
+server/outputs/bak/full_text.json
+server/outputs/bak/full_text.txt
+server/outputs/bak/messages_english.json
+server/outputs/bak/messages.json
+server/outputs/bak/metadata_english.json
+server/outputs/bak/metadata.json
+server/outputs/bak/parsed_english.json
+server/outputs/bak/parsed.json
+server/outputs/bak2/full_text_english.txt
+server/outputs/bak2/full_text.txt
+server/outputs/bak2/messages_english.json
+server/outputs/bak2/messages.json
+server/outputs/bak2/metadata_english.json
+server/outputs/bak2/metadata.json
+server/outputs/bak2/parsed_english.json
+server/outputs/bak2/parsed.json
