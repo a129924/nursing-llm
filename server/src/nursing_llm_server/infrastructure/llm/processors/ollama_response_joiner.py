@@ -7,21 +7,30 @@ from nursing_llm_server.core.models.stream_chunk import LLMStreamChunk
 
 
 class OllamaResponseJoiner(ResponseJoinerABC):
-    async def collect(self, chunks: AsyncIterator[LLMStreamChunk]) -> dict:
-        collected_content = [chunk async for chunk in chunks]
+    def _check_valid_stream(self, chunks: list[LLMStreamChunk]) -> bool:
+        return bool(chunks) and chunks[-1].done is True
 
-        if not collected_content:
-            return {}
+    async def collect(self, chunks: AsyncIterator[LLMStreamChunk]) -> dict:
+        collected_content: list[LLMStreamChunk] = [chunk async for chunk in chunks]
+
+        if not collected_content or not self._check_valid_stream(collected_content):
+            from nursing_llm_server.infrastructure.llm.processors.errors.stream import (
+                LLMStreamParseError,
+            )
+
+            raise LLMStreamParseError("Invalid stream chunk")
 
         content_response: str = "".join(
-            chunk.message.content for chunk in collected_content[:-1]
+            chunk.message.content for chunk in collected_content
         )
-        metadata = collected_content[-1].provider_raw or {}
+        response_metadata = collected_content[-1].provider_raw or {}
 
-        # Ensure 'message' key exists in metadata
-        if "message" not in metadata or not isinstance(metadata["message"], dict):
-            metadata["message"] = {}
+        # Ensure "message" key exists and is a dict
+        if "message" not in response_metadata or not isinstance(
+            response_metadata["message"], dict
+        ):
+            response_metadata["message"] = {}
 
-        metadata["message"]["content"] = content_response
+        response_metadata["message"]["content"] = content_response
 
-        return metadata
+        return response_metadata
