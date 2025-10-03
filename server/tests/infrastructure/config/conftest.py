@@ -16,6 +16,10 @@ def sample_ollama_config() -> dict:
         "model": "ollama/llama-2-7b",
         "timeout": 60,
         "api_key": None,
+        "temperature": 0.7,
+        "max_tokens": 1024,
+        "top_p": 0.9,
+        "seed": 42,
     }
 
 
