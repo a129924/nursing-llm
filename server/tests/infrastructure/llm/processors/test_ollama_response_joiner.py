@@ -3,9 +3,12 @@ from __future__ import annotations
 from collections.abc import AsyncIterator, Callable
 from typing import TYPE_CHECKING
 
-from pytest import mark
+from pytest import mark, raises
 
 from nursing_llm_server.core.enums.role import Role
+from nursing_llm_server.infrastructure.llm.processors.errors.stream import (
+    LLMStreamParseError,
+)
 
 if TYPE_CHECKING:
     from nursing_llm_server.core.models.message import Message
@@ -54,7 +57,7 @@ async def test_collect_simple(
     assembled = await response_joiner.collect(_aiter_from_list([chunk1, chunk2]))
 
     assert isinstance(assembled, dict)
-    assert assembled.get("message", {}).get("content") == "Hello"
+    assert assembled.get("message", {}).get("content") == "Hello world"
 
 
 @mark.asyncio
@@ -86,11 +89,10 @@ async def test_collect_message_variants(
 
     assert isinstance(assembled, dict)
     # content should be concatenation of all but the last chunk
-    assert assembled.get("message", {}).get("content") == "User text"
+    assert assembled.get("message", {}).get("content") == "User text continuation"
 
 
 @mark.asyncio
 async def test_collect_empty_stream(response_joiner: OllamaResponseJoiner) -> None:
-    assembled = await response_joiner.collect(_aiter_from_list([]))
-
-    assert assembled == {}
+    with raises(LLMStreamParseError):
+        await response_joiner.collect(_aiter_from_list([]))
