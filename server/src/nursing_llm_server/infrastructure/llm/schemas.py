@@ -21,7 +21,7 @@ class OllamaGenerateResponseSchema(BaseModel):
     eval_duration: float = Field(..., description="評估耗時（秒）")
 
 
-class ChatMessageSchema(BaseModel):
+class OllamaChatMessageSchema(BaseModel):
     """訊息物件，包含角色與內容。"""
 
     role: Role = Field(..., description="訊息角色，例如 Role.ASSISTANT 或 Role.USER")
@@ -68,7 +68,9 @@ class OllamaChatResponseSchema(BaseModel):
 
     model: str = Field(..., description="使用的模型名稱")
     created_at: datetime = Field(..., description="回應創建時間")
-    message: ChatMessageSchema = Field(..., description="回傳的訊息物件，含角色與內容")
+    message: OllamaChatMessageSchema = Field(
+        ..., description="回傳的訊息物件，含角色與內容"
+    )
     done: bool = Field(..., description="請求是否完成")
     done_reason: str = Field(..., description="完成原因，例如 'stop' 或其他")
     total_duration: float = Field(..., description="請求總耗時（秒）")

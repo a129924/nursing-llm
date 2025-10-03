@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Generic
+from typing import Any, Generic
 
 from nursing_llm_server.core.types.generic import Entity, PayloadSchema, ResponseSchema
 
@@ -7,7 +7,7 @@ from nursing_llm_server.core.types.generic import Entity, PayloadSchema, Respons
 class LLMProcessorABC(ABC, Generic[ResponseSchema, PayloadSchema, Entity]):
     # validation method
     @abstractmethod
-    def _validate_response(self, raw: str) -> ResponseSchema:
+    def _validate_response(self, raw: str | dict[str, Any]) -> ResponseSchema:
         """Validate the outer response schema."""
         raise NotImplementedError(
             "Subclasses must implement the _validate_response method"
@@ -28,7 +28,7 @@ class LLMProcessorABC(ABC, Generic[ResponseSchema, PayloadSchema, Entity]):
             "Subclasses must implement the _payload_schema_to_entity method"
         )
 
-    def validate_and_map(self, raw: str) -> Entity:
+    def validate_and_map(self, raw: str | dict[str, Any]) -> Entity:
         # Full processing method
         ## Step 1: Validate the outer response schema
         response_schema = self._validate_response(raw)
