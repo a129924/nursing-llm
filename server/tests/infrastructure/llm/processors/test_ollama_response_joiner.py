@@ -25,6 +25,15 @@ async def _aiter_from_list(
         yield it
 
 
+async def _aiter_with_raise(
+    items: list[LLMStreamChunk], raise_at_index: int, exc: Exception
+) -> AsyncIterator[LLMStreamChunk]:
+    for idx, it in enumerate(items):
+        if idx == raise_at_index:
+            raise exc
+        yield it
+
+
 @mark.asyncio
 async def test_collect_simple(
     response_joiner: OllamaResponseJoiner,
@@ -96,3 +105,49 @@ async def test_collect_message_variants(
 async def test_collect_empty_stream(response_joiner: OllamaResponseJoiner) -> None:
     with raises(LLMStreamParseError):
         await response_joiner.collect(_aiter_from_list([]))
+
+
+@mark.asyncio
+async def test_joiner_transport_error_propagates(
+    response_joiner: OllamaResponseJoiner, stream_chunk_factory, message_factory
+) -> None:
+    # Simulate transport-layer exception during iteration
+    transport_exc = RuntimeError("connection reset")
+
+    chunk1 = stream_chunk_factory(
+        "llama2:7b-chat",
+        "2025-10-01T08:44:25.304513Z",
+        message_factory(Role.ASSISTANT, "Hello"),
+        done=False,
+        provider_raw=None,
+    )
+
+    # The iterator will raise when encountering the index
+    with raises(LLMStreamParseError):
+        await response_joiner.collect(_aiter_with_raise([chunk1], 1, transport_exc))
+
+
+@mark.asyncio
+async def test_joiner_incomplete_stream_raises(
+    stream_chunk_factory, message_factory, response_joiner: OllamaResponseJoiner
+):
+    # Last chunk done=False
+    chunk1 = stream_chunk_factory(
+        "llama2:7b-chat",
+        "2025-10-01T08:44:25.304513Z",
+        message_factory(Role.ASSISTANT, "part1"),
+        done=False,
+        provider_raw=None,
+    )
+    chunk2 = stream_chunk_factory(
+        "llama2:7b-chat",
+        "2025-10-01T08:44:26.304513Z",
+        message_factory(Role.ASSISTANT, "part2"),
+        done=False,
+        provider_raw={"model": "llama2:7b-chat"},
+    )
+
+    with raises(LLMStreamParseError):
+        await response_joiner.collect(
+            _aiter_with_raise([chunk1, chunk2], 999, RuntimeError("won't be used"))
+        )
