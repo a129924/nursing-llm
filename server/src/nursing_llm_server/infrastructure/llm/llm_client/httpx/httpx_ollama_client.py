@@ -65,7 +65,7 @@ class HttpxOllamaClient(LLMClientABC):
     ) -> AsyncIterator[LLMStreamChunk]:
         async with self._http_async_client.stream(
             "POST",
-            f"{self._config.ollama_base_url}/chat",
+            f"{self._config.base_url}/chat",
             json={
                 "messages": [
                     {
@@ -126,7 +126,7 @@ class HttpxOllamaClient(LLMClientABC):
         # 使用 httpx 發送請求到 Ollama 伺服器並返回生成的回應
         try:
             response = await self._http_async_client.post(
-                f"{self._config.ollama_base_url}/generate",
+                f"{self._config.base_url}/generate",
                 json={
                     "prompt": prompt,
                     "model": self._config.model,

@@ -23,6 +23,6 @@ def test_ollama_config_instance(
     assert sample_ollama_config_instance.api_key == sample_ollama_config["api_key"]
 
     assert (
-        sample_ollama_config_instance.ollama_base_url
+        sample_ollama_config_instance.base_url
         == f"{sample_ollama_config_instance.host}:{sample_ollama_config_instance.port}"
     )
