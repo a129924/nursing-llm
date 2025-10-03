@@ -1,0 +1,10 @@
+[
+    {
+        "role": "system",
+        "content": "System prompt here."
+    },
+    {
+        "role": "user",
+        "content": "User says hello."
+    }
+]
