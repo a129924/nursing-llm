@@ -79,19 +79,13 @@ class HttpxOllamaClient(LLMClientABC):
             timeout=self._config.timeout,
         ) as response:
             try:
-                response.raise_for_status()
-
-                async for chunk in self._stream_response(response):
+                async for chunk in self._stream_response(response.raise_for_status()):
                     yield chunk
 
-            except ConnectTimeout as connect_timeout:
+            except (ConnectTimeout, ReadTimeout) as timeout_error:
                 raise LLMTimeoutError(
-                    f"Request timed out: {connect_timeout}"
-                ) from connect_timeout
-            except ReadTimeout as read_timeout:
-                raise LLMTimeoutError(
-                    f"Request timed out: {read_timeout}"
-                ) from read_timeout
+                    f"Request timed out: {timeout_error}"
+                ) from timeout_error
 
             except HTTPStatusError as http_status_error:
                 match http_status_error.response.status_code:
@@ -140,14 +134,10 @@ class HttpxOllamaClient(LLMClientABC):
             )
 
             return response.raise_for_status().text
-        except ConnectTimeout as connect_timeout:
+        except (ConnectTimeout, ReadTimeout) as timeout_error:
             raise LLMTimeoutError(
-                f"Request timed out: {connect_timeout}"
-            ) from connect_timeout
-        except ReadTimeout as read_timeout:
-            raise LLMTimeoutError(
-                f"Request timed out: {read_timeout}"
-            ) from read_timeout
+                f"Request timed out: {timeout_error}"
+            ) from timeout_error
 
         except HTTPStatusError as http_status_error:
             match http_status_error.response.status_code:
